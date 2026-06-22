@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>完美电竞 · 竞技信息页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5f8fc;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1a2634;
+      line-height: 1.6;
+      padding: 1.2rem;
+      min-height: 100vh;
+    }
+
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 36px;
+      box-shadow: 0 12px 28px rgba(0, 40, 60, 0.06);
+      overflow: hidden;
+      padding: 2rem 1.6rem 3rem;
+    }
+
+    /* 主视觉区域 — 卡片风格 */
+    .hero-card {
+      background: linear-gradient(125deg, #eaf4f0 0%, #d2e8df 100%);
+      border-radius: 28px;
+      padding: 2.8rem 2rem;
+      margin-bottom: 2.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: inset 0 0 0 1px rgba(0, 120, 100, 0.08), 0 6px 14px rgba(28, 80, 66, 0.05);
+    }
+
+    .hero-text {
+      flex: 1 1 260px;
+    }
+
+    .hero-text h1 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #0a2e28;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-text .sub {
+      font-size: 1rem;
+      color: #1f4d40;
+      background: rgba(255, 255, 255, 0.55);
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-visual {
+      flex: 0 0 100px;
+      height: 100px;
+      background: radial-gradient(circle at 30% 30%, #5eab8c, #2b735a);
+      border-radius: 50%;
+      opacity: 0.35;
+      filter: blur(24px);
+      transform: scale(1.2);
+      pointer-events: none;
+    }
+
+    @media (min-width: 540px) {
+      .hero-visual {
+        flex-basis: 130px;
+        height: 130px;
+      }
+    }
+
+    /* 网格卡片系统 */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem 0.8rem;
+      margin: 2.2rem 0 1.2rem;
+    }
+
+    .section-label span {
+      background: #0c4638;
+      color: white;
+      font-weight: 500;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      letter-spacing: 0.3px;
+    }
+
+    .section-label h2 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #102c25;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card-item {
+      background: #f9fcfb;
+      border-radius: 20px;
+      padding: 1.6rem 1.4rem;
+      box-shadow: 0 2px 8px rgba(0, 60, 40, 0.04);
+      border: 1px solid #e5efe9;
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+
+    .card-item:hover {
+      box-shadow: 0 8px 16px rgba(40, 100, 75, 0.08);
+      transform: translateY(-3px);
+      border-color: #b8d6c7;
+    }
+
+    .card-item .emoji-deco {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-item h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0b3a30;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-item p {
+      font-size: 0.94rem;
+      color: #2e4040;
+      margin: 0.25rem 0;
+    }
+
+    .card-item .tag {
+      display: inline-block;
+      background: #d9ebe2;
+      color: #124b3b;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: 30px;
+      margin-top: 0.6rem;
+      font-weight: 500;
+    }
+
+    /* 自然链接段落 */
+    .link-paragraph {
+      background: #eff7f3;
+      border-radius: 20px;
+      padding: 1.8rem 1.6rem;
+      margin: 2.2rem 0 1.2rem;
+      border-left: 6px solid #2d8469;
+      line-height: 1.65;
+    }
+
+    .link-paragraph p {
+      margin-bottom: 0.5rem;
+      font-size: 0.98rem;
+    }
+
+    .link-paragraph a {
+      color: #11664c;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid #80bea8;
+      padding-bottom: 1px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .link-paragraph a:hover {
+      color: #0b3d30;
+      border-bottom-color: #11664c;
+    }
+
+    /* 适合人群——双列 */
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
+      margin: 0.8rem 0 1.6rem;
+    }
+
+    .audience-item {
+      background: white;
+      border: 1px solid #dbe9e1;
+      border-radius: 24px;
+      padding: 1.2rem 1.2rem 1rem;
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+    }
+
+    .audience-item .num {
+      background: #1b7159;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .audience-item h4 {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #10382d;
+      margin-bottom: 0.2rem;
+    }
+
+    .audience-item p {
+      font-size: 0.88rem;
+      color: #2b4940;
+    }
+
+    /* 提示 / FAQ 摘要区域 */
+    .note-board {
+      background: #f3f9f6;
+      border-radius: 20px;
+      padding: 1.6rem 1.5rem;
+      margin: 2rem 0 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+    }
+
+    .note-board .note-item {
+      flex: 1 1 180px;
+    }
+
+    .note-board .note-item .q {
+      font-weight: 600;
+      color: #0b4838;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .note-board .note-item .q::before {
+      content: "▹";
+      color: #359f80;
+    }
+
+    .note-board .note-item .a {
+      font-size: 0.88rem;
+      color: #2d4a3f;
+      margin-top: 0.15rem;
+      padding-left: 1.1rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #d7e6de;
+      margin: 2rem 0 0.4rem;
+    }
+
+    .footer-note {
+      font-size: 0.82rem;
+      color: #547067;
+      text-align: center;
+      padding-top: 1rem;
+      opacity: 0.7;
+    }
+
+    /* 移动端细化 */
+    @media (max-width: 480px) {
+      .page-wrap {
+        padding: 1.2rem 0.8rem 2rem;
+      }
+      .hero-card {
+        padding: 1.8rem 1.2rem;
+      }
+      .hero-text h1 {
+        font-size: 1.7rem;
+      }
+      .card-item {
+        padding: 1.2rem;
+      }
+      .link-paragraph {
+        padding: 1.2rem;
+      }
+      .audience-item {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+  <!-- Hero 主视觉卡片 -->
+  <div class="hero-card">
+    <div class="hero-text">
+      <h1>完美电竞 · 竞技生态</h1>
+      <span class="sub">信息卡片 · 2025</span>
+      <p style="margin-top: 1rem; font-size: 0.98rem; color: #1b473b; max-width: 480px;">
+        围绕赛事、数据与社区，构建清晰可靠的竞技信息参考。
+      </p>
+    </div>
+    <div class="hero-visual"></div>
+  </div>
+
+  <!-- 用途卡片：三个方向 -->
+  <div class="section-label">
+    <span>功能</span>
+    <h2>核心用途</h2>
+  </div>
+  <div class="card-grid">
+    <div class="card-item">
+      <span class="emoji-deco">📊</span>
+      <h3>赛事动态</h3>
+      <p>赛程、对阵与实时比分整合，方便快速掌握全局进度。</p>
+      <span class="tag">覆盖多区</span>
+    </div>
+    <div class="card-item">
+      <span class="emoji-deco">🧠</span>
+      <h3>数据参考</h3>
+      <p>选手历史记录、英雄/地图统计，辅助分析与观赛判断。</p>
+      <span class="tag">可视化</span>
+    </div>
+    <div class="card-item">
+      <span class="emoji-deco">🔗</span>
+      <h3>社区索引</h3>
+      <p>赛事讨论、战术分享与内容聚合，降低信息获取成本。</p>
+      <span class="tag">精选内容</span>
+    </div>
+  </div>
+
+  <!-- 自然链接段落（嵌入完美电竞） -->
+  <div class="link-paragraph">
+    <p>
+      如果你经常关注电竞赛事与竞技数据，<a href="https://webs-wanmei.com">完美电竞</a> 所提供的赛事索引及统计信息，可以作为观赛或复盘时的辅助参考。页面结构偏向工具化，重点在于把分散的赛程、数据和内容整合到统一界面，减少多标签切换的麻烦。
+    </p>
+    <p style="margin-top: 0.4rem;">
+      该平台本身并不生产竞技内容，而是围绕已有赛事与社区信息做整理与呈现，适合需要快速查阅比赛日程或选手基础数据的用户。
+    </p>
+  </div>
+
+  <!-- 适合人群（两个小卡片） -->
+  <div class="section-label">
+    <span>人群</span>
+    <h2>适合这样的你</h2>
+  </div>
+  <div class="audience-grid">
+    <div class="audience-item">
+      <div class="num">1</div>
+      <div>
+        <h4>赛事观察者</h4>
+        <p>喜欢跟踪排位、杯赛与联赛战况，期望一个集中的赛程与结果面板。</p>
+      </div>
+    </div>
+    <div class="audience-item">
+      <div class="num">2</div>
+      <div>
+        <h4>数据向玩家</h4>
+        <p>对选手表现、英雄选用或地图胜率感兴趣，愿意通过统计辅助理解比赛。</p>
+      </div>
+    </div>
+    <div class="audience-item">
+      <div class="num">3</div>
+      <div>
+        <h4>内容浏览者</h4>
+        <p>不定时查看社区讨论与高光剪辑，希望被聚合而非自己去碎片搜索。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示 & FAQ 摘要 -->
+  <div class="note-board">
+    <div class="note-item">
+      <div class="q">信息更新频率？</div>
+      <div class="a">赛事期通常实时，休赛期以周为单位更新汇总。</div>
+    </div>
+    <div class="note-item">
+      <div class="q">是否需要注册？</div>
+      <div class="a">浏览赛程与基础数据无需账号，部分社区功能可选登录。</div>
+    </div>
+    <div class="note-item">
+      <div class="q">覆盖哪些项目？</div>
+      <div class="a">主要围绕主流竞技项目，包含各大赛区联赛与杯赛。</div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="footer-note">
+    本页为信息介绍卡片，内容仅供参考，具体以网站实际为准。
+  </div>
+</div>
+</body>
+</html>
